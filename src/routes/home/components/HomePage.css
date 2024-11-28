@@ -1,0 +1,8 @@
+.btnThemeSwitch {
+    transition: border-radius 300ms ease;
+    @apply w-12 h-12 rounded-full bg-bg2 text-2xl transition-colors duration-300 shadow
+}
+
+.btnThemeSwitch:hover {
+    @apply bg-green rounded-2xl text-white
+}
