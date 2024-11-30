@@ -15,6 +15,7 @@ import SignInPage from "./routes/sign-in/SignInPage";
 import SignUpPage from "./routes/sign-up/SignUpPage";
 
 import HomePage from "./routes/home/HomePage";
+import ServerPage from "./routes/server/ServerPage";
 
 
 const RequireAuth = ({ children }) => {
@@ -50,6 +51,11 @@ function App() {
                     <HomePage />
                 </RequireAuth>
             } />
+            <Route path='/servers/:serverId' element={
+                <RequireAuth>
+                    <ServerPage />
+                </RequireAuth>
+            }/>
         </Routes>
     );
 }
