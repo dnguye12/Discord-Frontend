@@ -20,7 +20,7 @@ const ServerHeader = ({ server, role }) => {
                     }
                     {
                         isAdmin && (
-                            <li className=""><a>Server Settings <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-gear" /></a></li>
+                            <li onClick={()=>document.getElementById('edit_server_modal').showModal()} className=""><a>Server Settings <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-gear" /></a></li>
                         )
                     }
                     {

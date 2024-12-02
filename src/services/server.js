@@ -91,3 +91,18 @@ export const addMember = async (id, role, profileId) => {
         console.log(error)
     }
 }
+
+export const updateSettings = async (id, name, imageUrl) => {
+    let query = baseUrl + `/server/update-settings?id=${id}`
+
+    try {
+        const request = await axios.put(query, {
+            name,
+            imageUrl
+        })
+
+        return request.data
+    } catch (error) {
+        console.log(error)
+    }
+}

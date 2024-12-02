@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NavigationAction from "./NavigationAction"
 import NavigationItem from "./NavigationItem"
 
-const NavigationSidebar = ({servers}) => {
-    const [ lightMode, setLightMode ] = useState(false)
+const NavigationSidebar = ({ server, servers }) => {
+    const [lightMode, setLightMode] = useState(false)
 
     const toggleTheme = () => {
         const currentTheme = document.body.getAttribute("data-theme");
@@ -21,12 +21,20 @@ const NavigationSidebar = ({servers}) => {
             <div className="divider mx-auto w-10 rounded-md"></div>
             <div className="flex-1 w-full">
                 {servers &&
-                    servers.map((server) => {
-                        return (
-                            <div key={server.id}>
-                                <NavigationItem id={server.id} imageUrl={server.imageUrl} name={server.name} />
-                            </div>
-                        )
+                    servers.map((s) => {
+                        if (server.id === s.id) {
+                            return (
+                                <div key={server.id}>
+                                    <NavigationItem id={server.id} imageUrl={server.imageUrl} name={server.name} />
+                                </div>
+                            )
+                        } else {
+                            return (
+                                <div key={s.id}>
+                                    <NavigationItem id={s.id} imageUrl={s.imageUrl} name={s.name} />
+                                </div>
+                            )
+                        }
                     })
                 }
             </div>
@@ -44,7 +52,7 @@ const NavigationSidebar = ({servers}) => {
                     elements: {
                         avatarBox: "h-[48px] w-[48px] shadow"
                     }
-                }}/>
+                }} />
             </div>
         </div>
     )

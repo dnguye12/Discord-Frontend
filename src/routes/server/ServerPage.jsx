@@ -9,6 +9,7 @@ import ModalCreateServer from "./components/ModalCreateServer"
 import NavigationSidebar from "./components/NavigationSidebar"
 import ServerSidebar from "./components/ServerSidebar"
 import ModalInvite from "./components/ModalInvite"
+import ModalEditServer from "./components/ModalEditServer"
 
 const ServerPage = () => {
     const serverId = useParams().serverId
@@ -60,7 +61,7 @@ const ServerPage = () => {
     return (
         <div className="h-full">
             <div className="hidden md:flex h-full w-[72px] z-30 flex-col fixed inset-y-0">
-                <NavigationSidebar servers={servers} />
+                <NavigationSidebar server={server} servers={servers} />
             </div>
             <div className="hidden md:flex md:ml-[72px] fixed h-full w-60 z-20 flex-col inset-y-0 shadow">
                 <ServerSidebar userId={userId} server={server}/>
@@ -70,6 +71,7 @@ const ServerPage = () => {
             </main>
             <ModalCreateServer addServer={addServer} />
             <ModalInvite server={server} userId={userId}/>
+            <ModalEditServer server={server} setServer={setServer} userId={userId}/>
         </div>
     )
 }
