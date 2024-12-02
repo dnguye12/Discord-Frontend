@@ -6,3 +6,23 @@
 .btnThemeSwitch:hover {
     @apply bg-green rounded-2xl text-white
 }
+
+.dropdown .dropdown-content li {
+    @apply px-1.5 py-2 text-sm cursor-pointer hover:bg-primary hover:text-white
+}
+
+.dropdown .dropdown-content li a {
+    @apply py-0 w-full h-full bg-transparent hover:bg-transparent
+}
+
+.filepond--credits {
+    @apply hidden
+}
+
+.filepond--drop-label {
+    @apply bg-bg2reversed rounded shadow 
+}
+
+.filepond--drop-label label {
+    @apply dark:text-black text-white
+}

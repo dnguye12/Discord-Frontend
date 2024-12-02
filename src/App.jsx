@@ -6,7 +6,7 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 library.add(fas, fab, far);
 
 import { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
 
 import PublicPage from "./routes/public/PublicPage";
@@ -16,6 +16,7 @@ import SignUpPage from "./routes/sign-up/SignUpPage";
 
 import HomePage from "./routes/home/HomePage";
 import ServerPage from "./routes/server/ServerPage";
+import InviteCodePage from "./routes/invite/InviteCodePage";
 
 
 const RequireAuth = ({ children }) => {
@@ -42,7 +43,7 @@ const RequireAuth = ({ children }) => {
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<SetupPage />} />
+            <Route path="/" element={<PublicPage />} />
             <Route path="/sign-in/*" element={<SignInPage />} />
             <Route path="/sign-up/*" element={<SignUpPage />} />
 
@@ -55,7 +56,20 @@ function App() {
                 <RequireAuth>
                     <ServerPage />
                 </RequireAuth>
-            }/>
+            } />
+            <Route
+                path="/invite"
+                element={<Navigate to="/" replace />}
+            />
+            <Route
+                path="/invite/"
+                element={<Navigate to="/" replace />}
+            />
+            <Route path='/invite/:inviteCode' element={
+                <RequireAuth>
+                    <InviteCodePage />
+                </RequireAuth>
+            } />
         </Routes>
     );
 }

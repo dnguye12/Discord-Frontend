@@ -2,6 +2,7 @@ import daisyui from 'daisyui';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: ["class", '[data-theme="dark"]'],
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -10,7 +11,9 @@ export default {
     extend: {
       colors: {
         "primary": "#5865F2",
+        "primary-hover": "#4752C4",
         "green": "#248045",
+        "blue": "#059BE2",
         "yellow": "#FEE75C",
         "pink": "#EB459E",
         "red": "#ED4245",

@@ -1,28 +1,12 @@
-import { useAuth, UserButton } from "@clerk/clerk-react"
-import { useEffect, useState } from "react"
+/* eslint-disable react/prop-types */
+import { UserButton } from "@clerk/clerk-react"
+import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getAllServersByProfile } from "../../../services/server"
 import NavigationAction from "./NavigationAction"
 import NavigationItem from "./NavigationItem"
 
-const NavigationSidebar = () => {
-    const { userId } = useAuth()
-    const [servers, setServers] = useState([])
+const NavigationSidebar = ({servers}) => {
     const [ lightMode, setLightMode ] = useState(false)
-
-    useEffect(() => {
-        const fetchServers = async () => {
-            try {
-                const request = await getAllServersByProfile(userId)
-                setServers(request)
-                console.log(servers)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-
-        fetchServers()
-    }, [userId])
 
     const toggleTheme = () => {
         const currentTheme = document.body.getAttribute("data-theme");
