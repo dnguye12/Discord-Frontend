@@ -11,6 +11,7 @@ import ServerSidebar from "./components/ServerSidebar"
 import ModalInvite from "./components/ModalInvite"
 import ModalEditServer from "./components/ModalEditServer"
 import ModalMembers from "./components/ModalMembers"
+import ModalCreateChannel from "./components/ModalCreateChannel"
 
 const ServerPage = () => {
     const serverId = useParams().serverId
@@ -95,6 +96,7 @@ const ServerPage = () => {
                         <ModalInvite server={server} userId={userId} />
                         <ModalEditServer server={server} setServer={setServer} userId={userId} />
                         <ModalMembers server={server} />
+                        <ModalCreateChannel server={server} userId={userId}/>
                     </>
                 )
             }

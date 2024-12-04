@@ -30,7 +30,7 @@ const ServerHeader = ({ server, role }) => {
                     }
                     {
                         isModerator && (
-                            <li className=""><a>Create Channels <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-circle-plus" /></a></li>
+                            <li onClick={()=>document.getElementById('create_channel_modal').showModal()} className=""><a>Create Channels <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-circle-plus" /></a></li>
                         )
                     }
                     {

@@ -119,3 +119,20 @@ export const updateSettings = async (id, name, imageUrl) => {
         console.log(error)
     }
 }
+
+export const addChannel = async (id, name, type, profile) => {
+    let query = baseUrl + `/server/add-channel?id=${id}`
+
+    try {
+        const request = await axios.put(query, {
+            name,
+            type,
+            profile
+        })
+
+        return request.data
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
