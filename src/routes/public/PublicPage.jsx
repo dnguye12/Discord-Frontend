@@ -7,7 +7,7 @@ const PublicPage = () => {
     const navigate = useNavigate()
 
     if (isSignedIn) {
-        navigate('/channels/@me')
+        navigate('/servers/')
     }
     return (
         <div>

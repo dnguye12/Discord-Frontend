@@ -40,12 +40,12 @@ const ServerHeader = ({ server, role }) => {
                     }
                     {
                         isAdmin && (
-                            <li className="text-red hover:!bg-red"><a>Delete Server <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-trash-can" /></a></li>
+                            <li onClick={()=>document.getElementById('delete_server_modal').showModal()} className="text-red hover:!bg-red"><a>Delete Server <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-trash-can" /></a></li>
                         )
                     }
                     {
                         !isAdmin && (
-                            <li className="text-red hover:!bg-red"><a>Leave Server <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-door-open" /></a></li>
+                            <li onClick={()=>document.getElementById('leave_server_modal').showModal()} className="text-red hover:!bg-red"><a>Leave Server <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-door-open" /></a></li>
                         )
                     }
                 </ul>

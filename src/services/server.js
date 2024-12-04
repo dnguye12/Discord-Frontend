@@ -105,6 +105,19 @@ export const kickMember = async (id, memberId) => {
     }
 }
 
+export const leaveServer = async (id, profileId) => {
+    let query = baseUrl + `/server/leave-server?id=${id}`
+
+    try {
+        const request = await axios.put(query, {
+            profileId
+        })
+        return request.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const updateSettings = async (id, name, imageUrl) => {
     let query = baseUrl + `/server/update-settings?id=${id}`
 
@@ -114,6 +127,16 @@ export const updateSettings = async (id, name, imageUrl) => {
             imageUrl
         })
 
+        return request.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteServer = async (id, profileId) => {
+    let query = baseUrl + `/server/delete-server?id=${id}&profileId=${profileId}`
+    try {
+        const request = await axios.delete(query)
         return request.data
     } catch (error) {
         console.log(error)

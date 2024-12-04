@@ -12,6 +12,8 @@ import ModalInvite from "./components/ModalInvite"
 import ModalEditServer from "./components/ModalEditServer"
 import ModalMembers from "./components/ModalMembers"
 import ModalCreateChannel from "./components/ModalCreateChannel"
+import ModalLeaveServer from "./components/ModalLeaveServer"
+import ModalDeleteServer from "./components/ModalDeleteServer"
 
 const ServerPage = () => {
     const serverId = useParams().serverId
@@ -78,6 +80,12 @@ const ServerPage = () => {
         }
     }
 
+    const removeServer = (server) => {
+        if (servers?.length > 0) {
+            setServers((prev) => prev.filter((p) => p.id !== server.id));
+        }
+    }
+
     return (
         <div className="h-full">
             <div className="hidden md:flex h-full w-[72px] z-30 flex-col fixed inset-y-0">
@@ -97,6 +105,8 @@ const ServerPage = () => {
                         <ModalEditServer server={server} setServer={setServer} userId={userId} />
                         <ModalMembers server={server} />
                         <ModalCreateChannel server={server} userId={userId}/>
+                        <ModalLeaveServer server={server} setServer={setServer} userId={userId}/>
+                        <ModalDeleteServer removeServer={removeServer} server={server} setServer={setServer} userId={userId}/>
                     </>
                 )
             }
