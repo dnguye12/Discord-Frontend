@@ -7,11 +7,11 @@
     @apply bg-green rounded-2xl text-white
 }
 
-.dropdown .dropdown-content li {
+.dropdown-ServerHeader .dropdown-content li {
     @apply px-1.5 py-2 text-sm cursor-pointer hover:bg-primary hover:text-white
 }
 
-.dropdown .dropdown-content li a {
+.dropdown-ServerHeader .dropdown-content li a {
     @apply py-0 w-full h-full bg-transparent hover:bg-transparent
 }
 

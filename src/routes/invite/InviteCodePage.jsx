@@ -25,7 +25,7 @@ const InviteCodePage = () => {
 
     useEffect(() => {
         if (isLoaded && server) {
-            const helper = server.members.find((member) => member.profileId === userId)
+            const helper = server.members.find((member) => member.profile === userId)
             if (helper) {
                 navigate(`/servers/${server.id}`)
             }

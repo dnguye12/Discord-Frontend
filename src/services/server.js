@@ -38,14 +38,14 @@ export const getAllServersByProfile = async (id) => {
     }
 }
 
-export const createServer = async (name, imageUrl, profileId) => {
+export const createServer = async (name, imageUrl, profile) => {
     let query = baseUrl + `/server`
 
     try {
         const request = await axios.post(query, {
             name,
             imageUrl,
-            profileId
+            profile
         })
         return request.data
     } catch (error) {
@@ -78,13 +78,26 @@ export const getServerByInviteCode = async (invite) => {
     }
 }
 
-export const addMember = async (id, role, profileId) => {
+export const addMember = async (id, role, profile) => {
     let query = baseUrl + `/server/add-member?id=${id}`
 
     try {
         const request = await axios.put(query, {
             role,
-            profileId
+            profile
+        })
+        return request.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const kickMember = async (id, memberId) => {
+    let query = baseUrl + `/server/kick-member?id=${id}`
+
+    try {
+        const request = await axios.put(query, {
+            memberId
         })
         return request.data
     } catch (error) {

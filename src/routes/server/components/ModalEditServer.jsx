@@ -36,7 +36,7 @@ const ModalEditServer = ({ server, setServer, userId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (server.profileId === userId) {
+        if (server.profile === userId) {
             try {
                 if (originalUploadName && originalUploadName !== uploadName) {
                     try {

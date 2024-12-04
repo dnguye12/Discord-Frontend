@@ -9,7 +9,7 @@ const ServerHeader = ({ server, role }) => {
     }
     return (
         <div>
-            <details className="dropdown w-full">
+            <details className="dropdown-ServerHeader dropdown w-full">
                 <summary className="btn justify-between items-center w-full text-md font-semibold px-4 h-12 hover:text-black hover:dark:text-white rounded-none bg-bg2 hover:bg-bg0 border-x-none border-t-none border-b border-b-bg3 transition duration-300">{server.name} <FontAwesomeIcon icon="fa-solid fa-chevron-down" /></summary>
                 
                 <ul className="menu dropdown-content shadow w-56 text-sm font-medium space-y-0.5 bg-bg3 m-2 rounded-lg px-2 py-1.5">
@@ -25,7 +25,7 @@ const ServerHeader = ({ server, role }) => {
                     }
                     {
                         isAdmin && (
-                            <li className=""><a>Manage members <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-users" /></a></li>
+                            <li onClick={()=>document.getElementById('member_modal').showModal()} className=""><a>Manage members <FontAwesomeIcon className="ml-auto" icon="fa-solid fa-users" /></a></li>
                         )
                     }
                     {

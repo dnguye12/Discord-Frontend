@@ -20,9 +20,9 @@ const NavigationSidebar = ({ server, servers }) => {
             <NavigationAction />
             <div className="divider mx-auto w-10 rounded-md"></div>
             <div className="flex-1 w-full">
-                {servers &&
+                {(servers && servers.length) > 0 &&
                     servers.map((s) => {
-                        if (server.id === s.id) {
+                        if (server && server.id === s.id) {
                             return (
                                 <div key={server.id}>
                                     <NavigationItem id={server.id} imageUrl={server.imageUrl} name={server.name} />

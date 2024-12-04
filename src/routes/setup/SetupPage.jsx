@@ -11,12 +11,11 @@ const initialProfile = async (user) => {
         if (profile) {
             return profile
         } else {
-            const id = user.id
             const name = user.fullName
             const imageUrl = user.imageUrl
             const email = user.emailAddresses[0].emailAddress
 
-            const newProfile = await postProfile(id, name, imageUrl, email)
+            const newProfile = await postProfile(name, imageUrl, email)
             return newProfile
         }
     } catch (error) {

@@ -7,7 +7,7 @@ library.add(fas, fab, far);
 
 import { useEffect } from "react";
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
-import { useAuth } from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 
 import PublicPage from "./routes/public/PublicPage";
 import SetupPage from "./routes/setup/SetupPage";
@@ -17,23 +17,42 @@ import SignUpPage from "./routes/sign-up/SignUpPage";
 import HomePage from "./routes/home/HomePage";
 import ServerPage from "./routes/server/ServerPage";
 import InviteCodePage from "./routes/invite/InviteCodePage";
+import { getProfile, postProfile } from "./services/profile";
 
 
 const RequireAuth = ({ children }) => {
-    const { userId, isLoaded } = useAuth()
+    const { isSignedIn, user, isLoaded } = useUser()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (isLoaded && !userId) {
+        if (isLoaded && !isSignedIn) {
             navigate("/sign-in");
         }
-    }, [isLoaded, userId, navigate])
+    }, [isLoaded, isSignedIn, navigate])
+
+    useEffect(() => {
+        if (user) {
+            const checkProfile = async () => {
+                try {
+                    const request = await getProfile(user.id)
+                    if (request?.status === 204) {
+                        const helperImage = user.hasImage ? user.imageUrl : ""
+                        const helperEmail = user.emailAddresses.length > 0 ? user.emailAddresses[0].emailAddress : ""
+                        await postProfile(user.id, user.fullName, helperImage, helperEmail)
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+            checkProfile()
+        }
+    }, [user])
 
     if (!isLoaded) {
         return <div>Loading...</div>;
     }
 
-    if (!userId) {
+    if (!user) {
         return null;
     }
 
@@ -53,6 +72,11 @@ function App() {
                 </RequireAuth>
             } />
             <Route path='/servers/:serverId' element={
+                <RequireAuth>
+                    <ServerPage />
+                </RequireAuth>
+            } />
+            <Route path='/servers' element={
                 <RequireAuth>
                     <ServerPage />
                 </RequireAuth>

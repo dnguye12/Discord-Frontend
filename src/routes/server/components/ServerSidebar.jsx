@@ -42,11 +42,19 @@ const ServerSidebar = ({ userId, server }) => {
     const audioChannels = channels.filter((channel) => channel.type === "AUDIO")
     const videoChannels = channels.filter((channel) => channel.type === "VIDEO")
 
-    const role = members.find((member) => member.profileId === userId)?.role
+    const role = members.find((member) => member.profile === userId)?.role
+
+    if (!server) {
+        return (
+            <div className="flex flex-col h-full w-full bg-bg2">
+                <p>No servers to display</p>
+            </div>
+        )
+    }
 
     return (
         <div className="flex flex-col h-full w-full bg-bg2">
-            <ServerHeader server={server} role={role}/>
+            <ServerHeader server={server} role={role} />
         </div>
     )
 }

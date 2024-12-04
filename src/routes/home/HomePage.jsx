@@ -11,6 +11,7 @@ const HomePage = () => {
     if(!isSignedIn) {
         navigate('/')
     }
+
     return (
         <div className="h-screen">
             <LeftMenu user={user}/>
