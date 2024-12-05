@@ -1,14 +1,16 @@
 /* eslint-disable react/prop-types */
-import { Children, useEffect, useState } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react"
 
 import { getChannelsByServerId } from "../../../services/channel"
 import { getMembersByServerId } from "../../../services/member"
 
 import ServerHeader from "./ServerHeader"
 import ServerSearch from "./ServerSearch"
+import ServerSection from "./ServerSection";
+import ServerChannel from "./ServerChannel"
+import ServerMember from "./ServerMember"
 
-const ServerSidebar = ({ userId, server }) => {
+const ServerSidebar = ({ userId, server, setType }) => {
     const [channels, setChannels] = useState([])
     const [members, setMembers] = useState([])
 
@@ -125,6 +127,97 @@ const ServerSidebar = ({ userId, server }) => {
                         ]} />
                     }
                 </div>
+                <div className="divider my-0"></div>
+                {
+                    !!textChannels?.length && (
+                        <div className="mb-2">
+                            <ServerSection
+                                sectionType="channels"
+                                channelType="TEXT"
+                                role={role}
+                                label="Text Channels"
+                                setType={setType}
+                            />
+                            <div className="space-y-0.5">
+                                {textChannels.map((channel) => (
+                                    <ServerChannel
+                                        key={channel.id}
+                                        channel={channel}
+                                        role={role}
+                                        server={server}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
+                {
+                    !!audioChannels?.length && (
+                        <div className="mb-2">
+                            <ServerSection
+                                sectionType="channels"
+                                channelType="AUDIO"
+                                role={role}
+                                label="Audio Channels"
+                                setType={setType}
+                            />
+                            <div className="space-y-0.5">
+                                {audioChannels.map((channel) => (
+                                    <ServerChannel
+                                        key={channel.id}
+                                        channel={channel}
+                                        role={role}
+                                        server={server}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
+                {
+                    !!videoChannels?.length && (
+                        <div className="mb-2">
+                            <ServerSection
+                                sectionType="channels"
+                                channelType="VIDEO"
+                                role={role}
+                                label="Video Channels"
+                                setType={setType}
+                            />
+                            <div className="space-y-0.5">
+                                {videoChannels.map((channel) => (
+                                    <ServerChannel
+                                        key={channel.id}
+                                        channel={channel}
+                                        role={role}
+                                        server={server}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
+                {
+                    !!members?.length && (
+                        <div className="mb-2">
+                            <ServerSection
+                                sectionType="members"
+                                role={role}
+                                label="Members"
+                                server={server}
+                            />
+                            <div className="space-y-0.5">
+                                {members.map((member) => (
+                                    <ServerMember
+                                        key={member.id}
+                                        member={member}
+                                        server={server}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     )

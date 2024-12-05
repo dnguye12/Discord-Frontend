@@ -4,9 +4,8 @@ import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { addChannel } from "../../../services/server";
 
-const ModalCreateChannel = ({ server, setServer, userId }) => {
+const ModalCreateChannel = ({server, setServer, type, setType, userId }) => {
     const [name, setName] = useState('')
-    const [type, setType] = useState('TEXT')
 
     const handleNameChange = (e) => {
         setName(e.target.value)
@@ -37,6 +36,7 @@ const ModalCreateChannel = ({ server, setServer, userId }) => {
                 ...prev,
                 channels: [...(prev.channels ||[]), newChannel]
             }))
+            document.getElementById('create_channel_modal').close()
         }catch(error) {
             console.log(error)
         }
@@ -73,6 +73,17 @@ const ModalCreateChannel = ({ server, setServer, userId }) => {
                                         </div>
                                     </div>
                                     <input type="radio" name="channel-type" className="radio ml-auto" checked={type === "AUDIO"} readOnly/>
+                                </div>
+
+                                <div onClick={() => setType("VIDEO")} className={`h-20 flex items-center px-3 py-2.5 cursor-pointer transition-colors duration-300 ${type === "VIDEO" && "bg-bg0"} hover:bg-bg0`}>
+                                    <div className="flex items-center">
+                                        <FontAwesomeIcon className="text-xl mr-3" icon="fa-solid fa-video" />
+                                        <div className="flex flex-col">
+                                            <p className="text-base font-semibold">Video channel</p>
+                                            <p className="text-sm">Video call and screen sharing.</p>
+                                        </div>
+                                    </div>
+                                    <input type="radio" name="channel-type" className="radio ml-auto" checked={type === "VIDEO"} readOnly/>
                                 </div>
                             </div>
                         </div>

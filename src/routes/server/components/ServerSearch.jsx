@@ -14,8 +14,6 @@ const ServerSearch = ({ data }) => {
 
     const filteredItems = filterItems(data, search)
 
-    console.log(filteredItems)
-
     const onClick = ({id, heading}) => {
         setOpen(false)
     }

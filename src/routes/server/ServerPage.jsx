@@ -25,6 +25,8 @@ const ServerPage = () => {
     const [server, setServer] = useState(null)
     const [servers, setServers] = useState([])
 
+    const [type, setType] = useState("TEXT")
+
     useEffect(() => {
         const fetchServers = async () => {
             try {
@@ -92,7 +94,7 @@ const ServerPage = () => {
                 <NavigationSidebar server={server} servers={servers} />
             </div>
             <div className="hidden md:flex md:ml-[72px] fixed h-full w-60 z-20 flex-col inset-y-0 shadow">
-                <ServerSidebar userId={userId} server={server} />
+                <ServerSidebar userId={userId} server={server } setType={setType}/>
             </div>
             <main className="md:pl-[312px] h-full">
                 Server ID Page
@@ -104,7 +106,7 @@ const ServerPage = () => {
                         <ModalInvite server={server} userId={userId} />
                         <ModalEditServer server={server} setServer={setServer} userId={userId} />
                         <ModalMembers server={server} />
-                        <ModalCreateChannel server={server} setServer={setServer} userId={userId}/>
+                        <ModalCreateChannel server={server} setServer={setServer} type={type} setType={setType} userId={userId}/>
                         <ModalLeaveServer removeServer={removeServer} server={server} setServer={setServer} userId={userId}/>
                         <ModalDeleteServer removeServer={removeServer} server={server} setServer={setServer} userId={userId}/>
                     </>
