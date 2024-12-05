@@ -3,7 +3,7 @@ import { useState } from "react";
 import { leaveServer } from "../../../services/server";
 import { useNavigate } from "react-router-dom";
 
-const ModalLeaveServer = ({ server, setServer, userId }) => {
+const ModalLeaveServer = ({ removeServer, server, setServer, userId }) => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
 
@@ -20,12 +20,13 @@ const ModalLeaveServer = ({ server, setServer, userId }) => {
             await leaveServer(server.id, userId)
             const modal = document.getElementById("leave_server_modal");
             modal.close()
+            removeServer(server)
             setServer(null)
+            navigate('/servers/')
         } catch (error) {
             console.log(error)
         } finally {
             setIsLoading(false)
-            navigate('/servers/')
         }
     }
 

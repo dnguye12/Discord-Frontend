@@ -22,11 +22,11 @@ const ModalDeleteServer = ({ removeServer ,server, setServer, userId }) => {
             modal.close()
             removeServer(server)
             setServer(null)
+            navigate('/servers/')
         } catch (error) {
             console.log(error)
         } finally {
             setIsLoading(false)
-            navigate('/servers/')
         }
     }
 

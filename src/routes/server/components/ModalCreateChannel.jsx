@@ -4,7 +4,7 @@ import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { addChannel } from "../../../services/server";
 
-const ModalCreateChannel = ({ server, userId }) => {
+const ModalCreateChannel = ({ server, setServer, userId }) => {
     const [name, setName] = useState('')
     const [type, setType] = useState('TEXT')
 
@@ -32,7 +32,11 @@ const ModalCreateChannel = ({ server, userId }) => {
 
         try {
             const newChannel = await addChannel(server.id, name, type, userId)
-            console.log(newChannel)
+
+            setServer((prev) => ({
+                ...prev,
+                channels: [...(prev.channels ||[]), newChannel]
+            }))
         }catch(error) {
             console.log(error)
         }
@@ -62,7 +66,7 @@ const ModalCreateChannel = ({ server, userId }) => {
 
                                 <div onClick={() => setType("AUDIO")} className={`h-20 flex items-center px-3 py-2.5 cursor-pointer transition-colors duration-300 ${type === "AUDIO" && "bg-bg0"} hover:bg-bg0`}>
                                     <div className="flex items-center">
-                                        <FontAwesomeIcon className="text-xl mr-3" icon="fa-solid fa-volume-high" />
+                                        <FontAwesomeIcon className="text-xl mr-3" icon="fa-solid fa-microphone" />
                                         <div className="flex flex-col">
                                             <p className="text-base font-semibold">Audio channel</p>
                                             <p className="text-sm">Communicate with voice.</p>

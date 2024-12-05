@@ -104,8 +104,8 @@ const ServerPage = () => {
                         <ModalInvite server={server} userId={userId} />
                         <ModalEditServer server={server} setServer={setServer} userId={userId} />
                         <ModalMembers server={server} />
-                        <ModalCreateChannel server={server} userId={userId}/>
-                        <ModalLeaveServer server={server} setServer={setServer} userId={userId}/>
+                        <ModalCreateChannel server={server} setServer={setServer} userId={userId}/>
+                        <ModalLeaveServer removeServer={removeServer} server={server} setServer={setServer} userId={userId}/>
                         <ModalDeleteServer removeServer={removeServer} server={server} setServer={setServer} userId={userId}/>
                     </>
                 )
