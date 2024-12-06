@@ -2,12 +2,22 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
 
-const ServerChannel = ({ channel, server, role }) => {
+const ServerChannel = ({ channel, server, setCurrentChannel, role }) => {
     const channelId = useParams().channelId
     const iconMap = {
         "TEXT": <FontAwesomeIcon className="flex-shrink-0 hover:group-text-black dark:group-hover:text-white transition" icon="fa-solid fa-hashtag" />,
         "AUDIO": <FontAwesomeIcon className="flex-shrink-0 hover:group-text-black dark:group-hover:text-white transition" icon="fa-solid fa-microphone" />,
         "VIDEO": <FontAwesomeIcon className="flex-shrink-0 hover:group-text-black dark:group-hover:text-white transition" icon="fa-solid fa-video" />
+    }
+
+    const onClickEdit = async(channel) => {
+        await setCurrentChannel(channel)
+        document.getElementById('edit_channel_modal').showModal()
+    }
+
+    const onClickDelete = async (channel) => {
+        await setCurrentChannel(channel)
+        document.getElementById('delete_channel_modal').showModal()
     }
 
     return (
@@ -18,10 +28,10 @@ const ServerChannel = ({ channel, server, role }) => {
             </p>
             {channel.name !== "general" && role !== "GUEST" && (
                 <div className="ml-auto flex items-center gap-x-2">
-                    <div className="tooltip" data-tip="Edit">
+                    <div onClick={() => {onClickEdit(channel)}} className="tooltip" data-tip="Edit">
                         <FontAwesomeIcon className="hidden group-hover:block" icon="fa-solid fa-pen" />
                     </div>
-                    <div className="tooltip" data-tip="Delete">
+                    <div onClick={() => {onClickDelete(channel)}} className="tooltip" data-tip="Delete">
                         <FontAwesomeIcon className="hidden group-hover:block" icon="fa-solid fa-trash-can" />
                     </div>
                 </div>

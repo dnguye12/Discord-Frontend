@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import { getAllServersByProfile, getServerById } from "../../services/server"
+import { getChannelsByServerId } from "../../services/channel"
+import { getMembersByServerId } from "../../services/member"
 
 import ModalCreateServer from "./components/ModalCreateServer"
 import NavigationSidebar from "./components/NavigationSidebar"
@@ -14,6 +16,8 @@ import ModalMembers from "./components/ModalMembers"
 import ModalCreateChannel from "./components/ModalCreateChannel"
 import ModalLeaveServer from "./components/ModalLeaveServer"
 import ModalDeleteServer from "./components/ModalDeleteServer"
+import ModalDeleteChannel from "./components/ModalDeleteChannel"
+import ModalEditChannel from "./components/ModalEditChannel"
 
 const ServerPage = () => {
     const serverId = useParams().serverId
@@ -24,6 +28,13 @@ const ServerPage = () => {
 
     const [server, setServer] = useState(null)
     const [servers, setServers] = useState([])
+
+    const [currentChannel, setCurrentChannel] = useState(null)
+
+    const [channels, setChannels] = useState([])
+    const [alreadyFetchChannels, setAlreadyFetchChannels] = useState(false)
+    const [members, setMembers] = useState([])
+    const [alreadyFetchMembers, setAlreadyFetchMembers] = useState(false)
 
     const [type, setType] = useState("TEXT")
 
@@ -58,14 +69,14 @@ const ServerPage = () => {
     }, [serverId])
 
     useEffect(() => {
-        if(server && !checkedUser) {
-            const checkUser = async() => {
+        if (server && !checkedUser) {
+            const checkUser = async () => {
                 const helper = server.members.find((member) => member.profile === userId)
 
-                if(!helper) {
+                if (!helper) {
                     setServer(null)
                     navigate('/servers')
-                }else {
+                } else {
                     setCheckedUser(true)
                 }
             }
@@ -73,6 +84,38 @@ const ServerPage = () => {
             checkUser()
         }
     }, [server, checkedUser, userId])
+
+    useEffect(() => {
+        if (server && !alreadyFetchChannels) {
+            const fetchChannels = async () => {
+                try {
+                    const response = await getChannelsByServerId(server.id)
+                    setChannels(response)
+                    setAlreadyFetchChannels(true)
+                } catch (error) {
+                    console.error("Error fetching channels:", error);
+                }
+            }
+
+            fetchChannels()
+        }
+    }, [server, channels, alreadyFetchChannels])
+
+    useEffect(() => {
+        if (server && !alreadyFetchMembers) {
+            const fetchMembers = async () => {
+                try {
+                    const response = await getMembersByServerId(server.id)
+                    setMembers(response)
+                    setAlreadyFetchMembers(true)
+                } catch (error) {
+                    console.error("Error fetching channels:", error);
+                }
+            }
+
+            fetchMembers()
+        }
+    }, [server, userId, alreadyFetchMembers])
 
     const addServer = (newServer) => {
         if (servers && servers.length > 0) {
@@ -94,7 +137,7 @@ const ServerPage = () => {
                 <NavigationSidebar server={server} servers={servers} />
             </div>
             <div className="hidden md:flex md:ml-[72px] fixed h-full w-60 z-20 flex-col inset-y-0 shadow">
-                <ServerSidebar userId={userId} server={server } setType={setType}/>
+                <ServerSidebar channels={channels} members={members} setCurrentChannel={setCurrentChannel} userId={userId} server={server} setType={setType} />
             </div>
             <main className="md:pl-[312px] h-full">
                 Server ID Page
@@ -106,10 +149,18 @@ const ServerPage = () => {
                         <ModalInvite server={server} userId={userId} />
                         <ModalEditServer server={server} setServer={setServer} userId={userId} />
                         <ModalMembers server={server} />
-                        <ModalCreateChannel server={server} setServer={setServer} type={type} setType={setType} userId={userId}/>
-                        <ModalLeaveServer removeServer={removeServer} server={server} setServer={setServer} userId={userId}/>
-                        <ModalDeleteServer removeServer={removeServer} server={server} setServer={setServer} userId={userId}/>
+                        <ModalCreateChannel server={server} setServer={setServer} type={type} setType={setType} userId={userId} />
+                        <ModalLeaveServer removeServer={removeServer} server={server} setServer={setServer} userId={userId} />
+                        <ModalDeleteServer removeServer={removeServer} server={server} setServer={setServer} userId={userId} />
+                        <ModalDeleteChannel currentChannel={currentChannel} setCurrentChannel={setCurrentChannel} setChannels={setChannels} server={server} setServer={setServer} userId={userId} />
+
                     </>
+                )
+            }
+            {
+                server && currentChannel &&
+                (
+                    <ModalEditChannel currentChannel={currentChannel} setCurrentChannel={setCurrentChannel} server={server} setChannels={setChannels} userId={userId} />
                 )
             }
         </div>

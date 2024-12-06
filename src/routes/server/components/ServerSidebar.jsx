@@ -1,8 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react"
-
-import { getChannelsByServerId } from "../../../services/channel"
-import { getMembersByServerId } from "../../../services/member"
 
 import ServerHeader from "./ServerHeader"
 import ServerSearch from "./ServerSearch"
@@ -10,39 +6,7 @@ import ServerSection from "./ServerSection";
 import ServerChannel from "./ServerChannel"
 import ServerMember from "./ServerMember"
 
-const ServerSidebar = ({ userId, server, setType }) => {
-    const [channels, setChannels] = useState([])
-    const [members, setMembers] = useState([])
-
-    useEffect(() => {
-        if (server) {
-            const fetchChannels = async () => {
-                try {
-                    const response = await getChannelsByServerId(server.id)
-                    setChannels(response)
-                } catch (error) {
-                    console.error("Error fetching channels:", error);
-                }
-            }
-
-            fetchChannels()
-        }
-    }, [server])
-
-    useEffect(() => {
-        if (server) {
-            const fetchMembers = async () => {
-                try {
-                    const response = await getMembersByServerId(server.id)
-                    setMembers(response)
-                } catch (error) {
-                    console.error("Error fetching channels:", error);
-                }
-            }
-
-            fetchMembers()
-        }
-    }, [server, userId])
+const ServerSidebar = ({ channels, members, setCurrentChannel, userId, server, setType }) => {
 
     const iconMap = {
         "TEXT": "HashtagIcon",
@@ -145,6 +109,7 @@ const ServerSidebar = ({ userId, server, setType }) => {
                                         channel={channel}
                                         role={role}
                                         server={server}
+                                        setCurrentChannel={setCurrentChannel}
                                     />
                                 ))}
                             </div>
@@ -168,6 +133,7 @@ const ServerSidebar = ({ userId, server, setType }) => {
                                         channel={channel}
                                         role={role}
                                         server={server}
+                                        setCurrentChannel={setCurrentChannel}
                                     />
                                 ))}
                             </div>
@@ -191,6 +157,7 @@ const ServerSidebar = ({ userId, server, setType }) => {
                                         channel={channel}
                                         role={role}
                                         server={server}
+                                        setCurrentChannel={setCurrentChannel}
                                     />
                                 ))}
                             </div>
