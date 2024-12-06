@@ -26,3 +26,19 @@
 .filepond--drop-label label {
     @apply dark:text-black text-white
 }
+
+.command-palette {
+    @apply !z-50
+}
+
+.flex.items-center.pl-3 {
+    @apply bg-bg2 font-semibold
+}
+
+.flex-1.overflow-y-auto.p-2.space-y-4 {
+    @apply bg-bg2 border-t !border-t-bg0
+}
+
+.fixed.inset-0.overflow-y-auto.flex.items-center.justify-center {
+    @apply bg-bg3 bg-opacity-50
+}

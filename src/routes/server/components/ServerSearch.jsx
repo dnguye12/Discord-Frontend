@@ -14,7 +14,7 @@ const ServerSearch = ({ data }) => {
 
     const filteredItems = filterItems(data, search)
 
-    const onClick = ({id, heading}) => {
+    const onClick = ({ id, heading }) => {
         setOpen(false)
     }
 
@@ -25,7 +25,7 @@ const ServerSearch = ({ data }) => {
                 <p className="font-semibold text-sm">Search</p>
                 <kbd className="bg-bg3 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border px-1.5 font-mono text-xs font-medium ml-auto"><span className="text-xs">CTRL</span>K</kbd>
             </button>
-
+            
             <CommandPalette
                 onChangeSearch={setSearch}
                 onChangeOpen={setOpen}
