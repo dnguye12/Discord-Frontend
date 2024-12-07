@@ -121,7 +121,7 @@ const ServerPage = () => {
     }, [server, userId, alreadyFetchMembers])
 
     useEffect(() => {
-        if(urlParts?.length === 3 && channels) {
+        if (urlParts?.length === 3 && channels) {
             setViewingChannel(channels.find((c) => c.name === "general"))
         }
     }, [channels])
@@ -151,14 +151,26 @@ const ServerPage = () => {
             <main className="md:pl-[312px] h-full">
                 {
                     viewingChannel
-                    ? (
-                        <ChannelPage channel={viewingChannel} setChannel={setViewingChannel}/>
-                    )
-                    : (
-                        <div>Server ID Page</div>
-                    )
+                        ? (
+                            <ChannelPage
+                                channel={viewingChannel}
+                                setChannel={setViewingChannel}
+                                server={server}
+                                servers={servers}
+                                channels={channels}
+                                members={members}
+                                setCurrentChannel={setCurrentChannel}
+                                userId={userId}
+                                setType={setType}
+                                viewingChannel={viewingChannel}
+                                setViewingChannel={setViewingChannel}
+                            />
+                        )
+                        : (
+                            <div>Server ID Page</div>
+                        )
                 }
-                
+
             </main>
             <ModalCreateServer addServer={addServer} />
             {
