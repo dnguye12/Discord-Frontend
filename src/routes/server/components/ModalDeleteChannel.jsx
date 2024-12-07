@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { deleteChannel } from "../../../services/channel";
 
 const ModalDeleteChannel = ({ currentChannel, setCurrentChannel, setChannels, server, setServer, userId }) => {
+    const url = window.location.pathname
+    const urlParts = url.split("/")
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
 
@@ -24,7 +26,9 @@ const ModalDeleteChannel = ({ currentChannel, setCurrentChannel, setChannels, se
             setServer(res)
             const modal = document.getElementById("delete_channel_modal");
             modal.close()
-            navigate(`/servers/${server.id}`)
+            if (urlParts?.length >= 5 && urlParts[3] === 'channels' && urlParts[4] === currentChannel.id) {
+                navigate(`/servers/${server.id}`)
+            }
         } catch (error) {
             console.log(error)
         } finally {
@@ -32,7 +36,7 @@ const ModalDeleteChannel = ({ currentChannel, setCurrentChannel, setChannels, se
         }
     }
 
-    if(!currentChannel) {
+    if (!currentChannel) {
         return <></>
     }
 

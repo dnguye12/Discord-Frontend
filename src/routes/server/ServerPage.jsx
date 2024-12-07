@@ -18,9 +18,11 @@ import ModalLeaveServer from "./components/ModalLeaveServer"
 import ModalDeleteServer from "./components/ModalDeleteServer"
 import ModalDeleteChannel from "./components/ModalDeleteChannel"
 import ModalEditChannel from "./components/ModalEditChannel"
+import ChannelPage from "./components/channel/ChannelPage"
 
 const ServerPage = () => {
     const serverId = useParams().serverId
+    const urlParts = window.location.pathname.split('/')
 
     const { userId } = useAuth()
     const [checkedUser, setCheckedUser] = useState(false)
@@ -29,7 +31,8 @@ const ServerPage = () => {
     const [server, setServer] = useState(null)
     const [servers, setServers] = useState([])
 
-    const [currentChannel, setCurrentChannel] = useState(null)
+    const [currentChannel, setCurrentChannel] = useState(null) //Channel that is being edited, deleted: too lazy to change to better name :(())
+    const [viewingChannel, setViewingChannel] = useState(null) //Channel the user is viewing
 
     const [channels, setChannels] = useState([])
     const [alreadyFetchChannels, setAlreadyFetchChannels] = useState(false)
@@ -117,6 +120,12 @@ const ServerPage = () => {
         }
     }, [server, userId, alreadyFetchMembers])
 
+    useEffect(() => {
+        if(urlParts?.length === 3 && channels) {
+            setViewingChannel(channels.find((c) => c.name === "general"))
+        }
+    }, [channels])
+
     const addServer = (newServer) => {
         if (servers && servers.length > 0) {
             setServers((prev) => [...prev, newServer])
@@ -137,10 +146,19 @@ const ServerPage = () => {
                 <NavigationSidebar server={server} servers={servers} />
             </div>
             <div className="hidden md:flex md:ml-[72px] fixed h-full w-60 z-20 flex-col inset-y-0 shadow">
-                <ServerSidebar channels={channels} members={members} setCurrentChannel={setCurrentChannel} userId={userId} server={server} setType={setType} />
+                <ServerSidebar channels={channels} members={members} setCurrentChannel={setCurrentChannel} userId={userId} server={server} setType={setType} viewingChannel={viewingChannel} setViewingChannel={setViewingChannel} />
             </div>
             <main className="md:pl-[312px] h-full">
-                Server ID Page
+                {
+                    viewingChannel
+                    ? (
+                        <ChannelPage channel={viewingChannel} setChannel={setViewingChannel}/>
+                    )
+                    : (
+                        <div>Server ID Page</div>
+                    )
+                }
+                
             </main>
             <ModalCreateServer addServer={addServer} />
             {

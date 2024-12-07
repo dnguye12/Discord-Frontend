@@ -2,6 +2,18 @@ import axios from 'axios'
 
 const baseUrl = import.meta.env.VITE_API_URL
 
+export const getChannel = async(id) => {
+    let query = baseUrl + `/channel?id=${id}`
+
+    try {
+        const request = await axios.get(query)
+
+        return request.data
+    }catch(error) {
+        console.log(error)
+    }
+}
+
 export const deleteChannel = async (id, userId) => {
     let query = baseUrl + `/channel?id=${id}`
 

@@ -71,7 +71,7 @@ function App() {
                     <HomePage />
                 </RequireAuth>
             } />
-            <Route path='/servers/:serverId' element={
+            <Route path='/servers/:serverId/*' element={
                 <RequireAuth>
                     <ServerPage />
                 </RequireAuth>

@@ -6,7 +6,7 @@ import ServerSection from "./ServerSection";
 import ServerChannel from "./ServerChannel"
 import ServerMember from "./ServerMember"
 
-const ServerSidebar = ({ channels, members, setCurrentChannel, userId, server, setType }) => {
+const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, setViewingChannel, userId, server, setType }) => {
 
     const iconMap = {
         "TEXT": "HashtagIcon",
@@ -110,6 +110,8 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, userId, server, s
                                         role={role}
                                         server={server}
                                         setCurrentChannel={setCurrentChannel}
+                                        viewingChannel={viewingChannel}
+                                        setViewingChannel={setViewingChannel}
                                     />
                                 ))}
                             </div>
@@ -134,6 +136,8 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, userId, server, s
                                         role={role}
                                         server={server}
                                         setCurrentChannel={setCurrentChannel}
+                                        viewingChannel={viewingChannel}
+                                        setViewingChannel={setViewingChannel}
                                     />
                                 ))}
                             </div>
@@ -158,6 +162,8 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, userId, server, s
                                         role={role}
                                         server={server}
                                         setCurrentChannel={setCurrentChannel}
+                                        viewingChannel={viewingChannel}
+                                        setViewingChannel={setViewingChannel}
                                     />
                                 ))}
                             </div>
