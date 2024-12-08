@@ -10,13 +10,13 @@ import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 
 import PublicPage from "./routes/public/PublicPage";
-import SetupPage from "./routes/setup/SetupPage";
 import SignInPage from "./routes/sign-in/SignInPage";
 import SignUpPage from "./routes/sign-up/SignUpPage";
-
 import HomePage from "./routes/home/HomePage";
 import ServerPage from "./routes/server/ServerPage";
 import InviteCodePage from "./routes/invite/InviteCodePage";
+import ConversationPage from "./routes/conversation/ConversationPage";
+
 import { getProfile, postProfile } from "./services/profile";
 
 
@@ -92,6 +92,11 @@ function App() {
             <Route path='/invite/:inviteCode' element={
                 <RequireAuth>
                     <InviteCodePage />
+                </RequireAuth>
+            } />
+            <Route path='/conversations/*' element = {
+                <RequireAuth>
+                    <ConversationPage />
                 </RequireAuth>
             } />
         </Routes>

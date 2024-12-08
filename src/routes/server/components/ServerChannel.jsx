@@ -31,7 +31,7 @@ const ServerChannel = ({ channel, server, setCurrentChannel, viewingChannel, set
     }
 
     return (
-        <button onClick={onClick} className={`group px-2 py-2 rounded-md flex items-center gap-x-2 w-full transition mb-1 hover:bg-bg0 ${viewingChannel.id === channel.id && "bg-bg0"}`}>
+        <button onClick={onClick} className={`h-10 group px-2 py-2 rounded-md flex items-center gap-x-2 w-full transition mb-1 hover:bg-bg0 ${viewingChannel.id === channel.id && "bg-bg0"}`}>
             {iconMap[channel.type]}
             <p className={`line-clamp-1 font-semibold text-sm hover:group-text-black dark:group-hover:text-white transition ${viewingChannel.id === channel.id && "font-bold text-black dark:text-white group-hover:text-black dark:group-hover:text-white"}`}>
                 {channel.name}

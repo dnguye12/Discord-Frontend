@@ -24,9 +24,10 @@ const ServerPage = () => {
     const serverId = useParams().serverId
     const urlParts = window.location.pathname.split('/')
 
+    const navigate = useNavigate()
+
     const { userId } = useAuth()
     const [checkedUser, setCheckedUser] = useState(false)
-    const navigate = useNavigate()
 
     const [server, setServer] = useState(null)
     const [servers, setServers] = useState([])
@@ -121,7 +122,7 @@ const ServerPage = () => {
     }, [server, userId, alreadyFetchMembers])
 
     useEffect(() => {
-        if (urlParts?.length === 3 && channels) {
+        if (urlParts?.length === 3 && urlParts[2] !== "@me" && channels) {
             setViewingChannel(channels.find((c) => c.name === "general"))
         }
     }, [channels])
