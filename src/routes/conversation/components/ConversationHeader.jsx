@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSocket } from "../../../providers/socket-provider";
 
 const ConversationHeader = ({ otherProfile, setOpenSide }) => {
+    const {isConnected} = useSocket()
     if (!otherProfile) {
         return <div>...Loading</div>
     }
