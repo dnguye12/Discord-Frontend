@@ -5,9 +5,14 @@ import { getChannel } from "../../../../services/channel"
 import ChatHeader from "./components/ChatHeader"
 import NavigationSidebar from "../NavigationSidebar"
 import ServerSidebar from "../ServerSidebar"
+import ChatInput from "./components/ChatInput"
+import ModalMessageFile from "./components/ModalMessageFile"
+import ChatMessages from "./components/ChatMessages"
+import ModalMessageDelete from "./components/ModalMessageDelete"
 
 const ChannelPage = ({ channel, setChannel, server, servers, channels, members, setCurrentChannel, userId, setType, viewingChannel, setViewingChannel }) => {
     const [openSide, setOpenSide] = useState(false)
+    const [deletingMessage, setDeletingMessage] = useState(null)
     useEffect(() => {
         if (!channel) {
             const fetchChannel = async () => {
@@ -33,9 +38,18 @@ const ChannelPage = ({ channel, setChannel, server, servers, channels, members, 
     }
     return (
         <div className="bg-bg1 flex flex-col h-full min-h-screen drawer">
-            <input id="mobile-drawer" type="checkbox" className="drawer-toggle"  />
+            <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
                 <ChatHeader channel={channel} setOpenSide={setOpenSide} />
+                <ChatMessages
+                    channel={channel}
+                    chatId={channel.id}
+                    server={server}
+                    userId={userId}
+                    deletingMessage={deletingMessage}
+                    setDeletingMessage={setDeletingMessage}
+                />
+                <ChatInput channel={channel} userId={userId} />
             </div>
             <div className="md:hidden drawer-side">
                 <label htmlFor="mobile-drawer" aria-label="close sidebar" className="drawer-overlay" onClick={() => setOpenSide(false)}></label>
@@ -46,6 +60,8 @@ const ChannelPage = ({ channel, setChannel, server, servers, channels, members, 
                     <ServerSidebar channels={channels} members={members} setCurrentChannel={setCurrentChannel} userId={userId} server={server} setType={setType} viewingChannel={viewingChannel} setViewingChannel={setViewingChannel} />
                 </div>
             </div>
+            <ModalMessageFile channel={channel} userId={userId} />
+            <ModalMessageDelete deletingMessage={deletingMessage} setDeletingMessage={setDeletingMessage}/>
         </div>
     )
 }

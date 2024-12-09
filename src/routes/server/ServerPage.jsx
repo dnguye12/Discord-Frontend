@@ -123,9 +123,16 @@ const ServerPage = () => {
 
     useEffect(() => {
         if (urlParts?.length === 3 && urlParts[2] !== "@me" && channels) {
-            setViewingChannel(channels.find((c) => c.name === "general"))
+            const helper = channels.find((c) => c.name === "general")
+            setViewingChannel(helper)
+            if (helper) {
+                navigate(`/servers/${serverId}/channels/${helper.id}`)
+            }
+        }else if(urlParts?.length === 5 && urlParts[3] === "channels" ) {
+            const helper = channels.find((c) => c.id === urlParts[4])
+            setViewingChannel(helper)
         }
-    }, [channels])
+    }, [channels, urlParts, serverId, navigate])
 
     const addServer = (newServer) => {
         if (servers && servers.length > 0) {

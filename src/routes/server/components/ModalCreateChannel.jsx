@@ -61,7 +61,7 @@ const ModalCreateChannel = ({server, setServer, type, setType, userId }) => {
                                             <p className="text-sm">Send messages, images, gif, emojis and wordplays</p>
                                         </div>
                                     </div>
-                                    <input type="radio" name="channel-type" className="radio ml-auto" checked={type === "TEXT"} defaultChecked readOnly/>
+                                    <input type="radio" name="channel-type" className="radio ml-auto" checked={type === "TEXT"} readOnly/>
                                 </div>
 
                                 <div onClick={() => setType("AUDIO")} className={`h-20 flex items-center px-3 py-2.5 cursor-pointer transition-colors duration-300 ${type === "AUDIO" && "bg-bg0"} hover:bg-bg0`}>
