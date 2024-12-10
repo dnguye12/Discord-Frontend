@@ -1,12 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react"
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import ConversationHeader from "./ConversationHeader"
 import NavigationSidebar from "../../server/components/NavigationSidebar"
 import ConversationSidebar from "./ConversationSidebar"
 import ConversationChatInput from "./ConversationChatInput"
+import ConversationMessages from "./ConversationMessages"
+import { MediaRoom } from "../../../video/media-room";
 
-const ConversationMain = ({ conversations, currentConversation, setCurrentConversation, servers, userId }) => {
+const ConversationMain = ({ conversations, currentConversation, setCurrentConversation, servers, userId, setDeletingMessage }) => {
+    const [searchParams] = useSearchParams();
+    const isVideo = searchParams?.get("video")
+    const navigate = useNavigate()
+
     const [openSide, setOpenSide] = useState(false)
     const [otherProfile, setOtherProfile] = useState(null)
 
@@ -22,15 +29,36 @@ const ConversationMain = ({ conversations, currentConversation, setCurrentConver
         <div className="bg-bg1 flex flex-col drawer">
             <input id="mobile-drawer-convo" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
-                <div className="flex flex-col h-screen">
-                    <ConversationHeader otherProfile={otherProfile} setOpenSide={setOpenSide} />
+                <ConversationHeader otherProfile={otherProfile} setOpenSide={setOpenSide} />
 
-                    <div className="">Future messages</div>
-                    <ConversationChatInput
-                        apiUrl="/api/socket/messages"
-                        otherProfile={otherProfile}
-                    />
-                </div>
+                {
+                    isVideo
+                        ? (
+                            <MediaRoom
+                                chatId={currentConversation.id}
+                                audio={true}
+                                video={true}
+                                handleLeave={() => navigate(`/conversations/${currentConversation.id}`)}
+                            />
+                        )
+                        :
+                        (
+                            <>
+                                <ConversationMessages
+                                    currentConversation={currentConversation}
+                                    otherProfile={otherProfile}
+                                    userId={userId}
+                                    setDeletingMessage={setDeletingMessage}
+                                />
+                                <ConversationChatInput
+                                    currentConversation={currentConversation}
+                                    otherProfile={otherProfile}
+                                    userId={userId}
+                                />
+                            </>
+                        )
+                }
+
             </div>
             <div className="md:hidden drawer-side">
                 <label htmlFor="mobile-drawer-convo" aria-label="close sidebar" className="drawer-overlay" onClick={() => setOpenSide(false)}></label>

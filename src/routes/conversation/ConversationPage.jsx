@@ -8,12 +8,15 @@ import ModalCreateServer from "../server/components/ModalCreateServer"
 import { getAllServersByProfile } from "../../services/server"
 import { findConversationWithMembers, getConversation } from "../../services/conversation"
 import ConversationMain from "./components/ConversationMain"
+import ModalDeleteConversation from "./components/ModalDeleteConversation"
+import ModalFileConversation from "./components/ModalFileConversation"
 
 
 const ConversationPage = () => {
     const urlParts = window.location.pathname.split('/')
     const { userId } = useAuth()
 
+    const [deletingMessage, setDeletingMessage] = useState(null)
     const [servers, setServers] = useState([])
 
     const [conversations, setConversations] = useState([])
@@ -88,13 +91,15 @@ const ConversationPage = () => {
                 {
                     currentConversation
                         ?
-                        <ConversationMain conversations={conversations} currentConversation={currentConversation} setCurrentConversation={setCurrentConversation} servers={servers} userId={userId}/>
+                        <ConversationMain conversations={conversations} currentConversation={currentConversation} setCurrentConversation={setCurrentConversation} servers={servers} userId={userId} setDeletingMessage={setDeletingMessage}/>
                         :
                         <div className="bg-bg1 h-full min-h-screen"></div>
                 }
 
             </main>
             <ModalCreateServer addServer={addServer} />
+            <ModalFileConversation conversation={currentConversation} userId={userId}/>
+            <ModalDeleteConversation deletingMessage={deletingMessage} setDeletingMessage={setDeletingMessage} />
         </div>
     )
 }

@@ -3,8 +3,9 @@ import moment from 'moment';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 import { useState } from "react";
-import { deleteMessage } from '../../../../../services/message';
-const ModalMessageDelete = ({ deletingMessage, setDeletingMessage }) => {
+import { deleteDirectMessage } from '../../../services/direct-message';
+
+const ModalDeleteConversation = ({ deletingMessage, setDeletingMessage }) => {
     const [isLoading, setIsLoading] = useState(false)
     const message = deletingMessage
 
@@ -13,19 +14,11 @@ const ModalMessageDelete = ({ deletingMessage, setDeletingMessage }) => {
     }
     const isUpdated = message.updatedAt && message.updatedAt !== message.createdAt
     const fileType = message.fileUrl?.split(".").pop()
-    const isAdmin = message.member.role === "ADMIN"
-    const isModerator = message.member.role === "MODERATOR"
     const isPDF = fileType === "pdf" && message.fileUrl
     const isImage = !isPDF && message.fileUrl
 
-    const roleIconMap = {
-        "GUEST": null,
-        "MODERATOR": <FontAwesomeIcon className="ml-2 text-primary" icon="fa-solid fa-shield-halved" />,
-        "ADMIN": <FontAwesomeIcon className="ml-2 text-red" icon="fa-solid fa-shield" />
-    }
-
     const handleCancel = () => {
-        const modal = document.getElementById("delete_message_modal");
+        const modal = document.getElementById("delete_direct_message_modal");
         if (modal) {
             modal.close();
         }
@@ -34,10 +27,10 @@ const ModalMessageDelete = ({ deletingMessage, setDeletingMessage }) => {
     const handleConfirm = async () => {
         try {
             setIsLoading(true)
-            await deleteMessage(deletingMessage.id)
+            await deleteDirectMessage(deletingMessage.id)
             setDeletingMessage(null)
             setIsLoading(false)
-            const modal = document.getElementById("delete_message_modal");
+            const modal = document.getElementById("delete_direct_message_modal");
             modal.close()
         } catch (error) {
             console.log(error)
@@ -46,23 +39,18 @@ const ModalMessageDelete = ({ deletingMessage, setDeletingMessage }) => {
         }
     }
 
-
-
     return (
-        <dialog id="delete_message_modal" className="modal">
+        <dialog id="delete_direct_message_modal" className="modal">
             <div className="modal-box bg-bg2 p-0 overflow-hidden">
                 <div className="px-6 py-8">
                     <h3 className="font-bold text-2xl text-center text-black dark:text-white mb-4">Delete message?</h3>
                     <p className="text-center mb-4">Are you sure you want to delete <span className="font-semibold"></span>?</p>
                     <div className="shadow-md p-3 flex bg-bg1 gap-x-2">
-                        <img className="w-10 h-10 rounded-full shadow border border-bg0" src={`${message.member.profile.imageUrl}`} />
+                        <img className="w-10 h-10 rounded-full shadow border border-bg0" src={`${message.profile.imageUrl}`} />
                         <div className="flex flex-col w-full">
                             <div className="flex items-center gap-x-2">
                                 <div className="flex items-center">
-                                    <p className={`font-semibold text-sm hover:underline cursor-pointer ${isAdmin && "text-red"} ${isModerator && "text-primary"}`}>{message.member.profile.name}</p>
-                                    <div className="tooltip" data-tip={message.member.role}>
-                                        {roleIconMap[message.member.role]}
-                                    </div>
+                                    <p className={`font-semibold text-sm hover:underline cursor-pointer `}>{message.profile.name}</p>
                                 </div>
                                 <span className='text-xs'>{moment(message.createdAt).format('hh:mm, D MMM YYYY')}</span>
                             </div>
@@ -120,5 +108,5 @@ const ModalMessageDelete = ({ deletingMessage, setDeletingMessage }) => {
         </dialog >
     )
 }
-
-export default ModalMessageDelete;
+ 
+export default ModalDeleteConversation;

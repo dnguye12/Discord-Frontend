@@ -9,6 +9,7 @@ import ChatInput from "./components/ChatInput"
 import ModalMessageFile from "./components/ModalMessageFile"
 import ChatMessages from "./components/ChatMessages"
 import ModalMessageDelete from "./components/ModalMessageDelete"
+import { MediaRoom } from "../../../../video/media-room"
 
 const ChannelPage = ({ channel, setChannel, server, servers, channels, members, setCurrentChannel, userId, setType, viewingChannel, setViewingChannel }) => {
     const [openSide, setOpenSide] = useState(false)
@@ -36,20 +37,44 @@ const ChannelPage = ({ channel, setChannel, server, servers, channels, members, 
     if (!channel) {
         return <div>...Loading</div>
     }
+
     return (
         <div className="bg-bg1 flex flex-col h-full min-h-screen drawer">
             <input id="mobile-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
                 <ChatHeader channel={channel} setOpenSide={setOpenSide} />
-                <ChatMessages
-                    channel={channel}
-                    chatId={channel.id}
-                    server={server}
-                    userId={userId}
-                    deletingMessage={deletingMessage}
-                    setDeletingMessage={setDeletingMessage}
-                />
-                <ChatInput channel={channel} userId={userId} />
+                {channel.type === "TEXT" && (
+                    <>
+                        <ChatMessages
+                            channel={channel}
+                            chatId={channel.id}
+                            server={server}
+                            userId={userId}
+                            deletingMessage={deletingMessage}
+                            setDeletingMessage={setDeletingMessage}
+                        />
+                        <ChatInput channel={channel} userId={userId} />
+                    </>
+                )
+                }
+                {
+                    channel.type === "AUDIO" && (
+                        <MediaRoom 
+                            chatId={channel.id}
+                            video={false}
+                            audio={true}
+                        />
+                    )
+                }
+                {
+                    channel.type === "VIDEO" && (
+                        <MediaRoom 
+                            chatId={channel.id}
+                            video={true}
+                            audio={false}
+                        />
+                    )
+                }
             </div>
             <div className="md:hidden drawer-side">
                 <label htmlFor="mobile-drawer" aria-label="close sidebar" className="drawer-overlay" onClick={() => setOpenSide(false)}></label>
@@ -61,7 +86,7 @@ const ChannelPage = ({ channel, setChannel, server, servers, channels, members, 
                 </div>
             </div>
             <ModalMessageFile channel={channel} userId={userId} />
-            <ModalMessageDelete deletingMessage={deletingMessage} setDeletingMessage={setDeletingMessage}/>
+            <ModalMessageDelete deletingMessage={deletingMessage} setDeletingMessage={setDeletingMessage} />
         </div>
     )
 }

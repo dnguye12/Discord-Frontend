@@ -1,25 +1,21 @@
 /* eslint-disable react/prop-types */
+import { useConversationQuery } from "../../../hooks/use-chat-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useChatQuery } from "../../../../../hooks/use-chat-query";
-import ChatWelcome from "./ChatWelcome";
 import { Fragment, useRef } from "react";
-import ChatItem from "./ChatItem";
-import { useChatSocket } from "../../../../../hooks/use-chat-socket";
-import { useChatScroll } from "../../../../../hooks/use-chat-scroll";
+import ConversationWelcome from "./ConversationWelcome";
+import ConversationItem from "./ConversationItem";
+import { useChatScroll } from "../../../hooks/use-chat-scroll";
 
-const ChatMessages = ({ channel, chatId, server, userId, deletingMessage, setDeletingMessage }) => {
-    const queryKey = `chat:${chatId}`
-    const addKey = `chat:${chatId}:messages`
-    const updateKey = `chat:${chatId}:messages:update`
+const ConversationMessages = ({ currentConversation, otherProfile, userId, setDeletingMessage }) => {
+    const queryKey = `conversation:${currentConversation.id}`
 
     const chatRef = useRef(null)
     const bottomRef = useRef(null)
 
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useChatQuery({
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useConversationQuery({
         queryKey,
-        channelId: channel.id
+        conversationId: currentConversation.id
     })
-    useChatSocket({ addKey, updateKey, queryKey })
     useChatScroll({
         chatRef,
         bottomRef,
@@ -27,7 +23,7 @@ const ChatMessages = ({ channel, chatId, server, userId, deletingMessage, setDel
         shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
         count: data?.pages?.[0]?.items?.length ?? 0
     })
-
+    
     if (status === "loading") {
         return (
             <div style={{ height: "calc(100vh - 136px)" }} className="flex flex-col flex-1 justify-center items-center">
@@ -47,9 +43,9 @@ const ChatMessages = ({ channel, chatId, server, userId, deletingMessage, setDel
     }
 
     return (
-        <div ref={chatRef} style={{ height: "calc(100vh - 136px)" }} className="flex flex-col py-4 overflow-y-auto">
+        <div ref={chatRef} style={{ height: "calc(100vh - 136px)" }} className="flex flex-col pt-4 overflow-y-auto">
             {!hasNextPage && <div className="flex-1" />}
-            {!hasNextPage && <ChatWelcome channel={channel} />}
+            {!hasNextPage && <ConversationWelcome otherProfile={otherProfile} />}
             {hasNextPage && (
                 <div className="flex justify-center">
                     {
@@ -59,10 +55,10 @@ const ChatMessages = ({ channel, chatId, server, userId, deletingMessage, setDel
                             :
                             (
                                 <div className="divider">
-                                <button
-                                    className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 text-xs my-4 transition"
-                                    onClick={() => fetchNextPage()}
-                                >Load previous messages</button>
+                                    <button
+                                        className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 text-xs my-4 transition"
+                                        onClick={() => fetchNextPage()}
+                                    >Load previous messages</button>
                                 </div>
                             )
                     }
@@ -72,12 +68,11 @@ const ChatMessages = ({ channel, chatId, server, userId, deletingMessage, setDel
                 {
                     data?.pages?.map((group, i) => (
                         <Fragment key={i}>
-                            {group.messages.map((message) => (
-                                <ChatItem
-                                    key={message.id}
-                                    message={message}
+                            {group.directMessages.map((dm) => (
+                                <ConversationItem
+                                    key={dm.id}
+                                    dm={dm}
                                     userId={userId}
-                                    deletingMessage={deletingMessage}
                                     setDeletingMessage={setDeletingMessage}
                                 />
                             ))}
@@ -90,4 +85,4 @@ const ChatMessages = ({ channel, chatId, server, userId, deletingMessage, setDel
     );
 }
 
-export default ChatMessages;
+export default ConversationMessages;

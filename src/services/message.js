@@ -25,10 +25,10 @@ export const updateContent = async (id, newContent, channelId) => {
 }
 
 export const deleteMessage = async (id) => {
-    let query = baseUrl + `/message?id=${id}`
+    let query = baseUrl + `/message/delete?id=${id}`
     console.log(query)
     try {
-        const request = await axios.delete(query)
+        const request = await axios.put(query)
         return request
     } catch (error) {
         console.log(error)
