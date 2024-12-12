@@ -1,20 +1,27 @@
-import { SignInButton, SignOutButton, SignUpButton } from "@clerk/clerk-react"
 import { useUser } from '@clerk/clerk-react'
-import { useNavigate } from "react-router-dom"
+import PublicHeader from "./components/PublicHeader"
+import PublicHero from "./components/PublicHero"
+
+import PublicFooter from "./components/PublicFooter"
 
 const PublicPage = () => {
     const { isSignedIn, user, isLoaded } = useUser()
-    const navigate = useNavigate()
 
-    if (isSignedIn) {
-        navigate('/servers/')
+    if (!isLoaded) {
+        return <div>...Loading</div>
     }
+
     return (
-        <div>
-            <h1>Public Page</h1>
-            <SignInButton />
-            <SignUpButton />
-            <SignOutButton />
+        <div className="w-full flex flex-col h-screen"
+            style={{
+                background: "linear-gradient(144deg, rgba(0,0,0,1) 0%, rgba(88,101,242,1) 100%)"
+            }}
+        >
+            <PublicHeader isSignedIn={isSignedIn} />
+
+            <PublicHero isSignedIn={isSignedIn}/>
+            
+            <PublicFooter />
         </div>
 
     )
