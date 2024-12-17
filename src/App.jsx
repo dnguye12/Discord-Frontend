@@ -17,7 +17,9 @@ import ServerPage from "./routes/server/ServerPage";
 import InviteCodePage from "./routes/invite/InviteCodePage";
 import ConversationPage from "./routes/conversation/ConversationPage";
 
+
 import { getProfile, postProfile, setProfileStatus } from "./services/profile";
+import ServerStats from "./server-stats/ServerStats";
 
 
 const RequireAuth = ({ children }) => {
@@ -70,6 +72,11 @@ function App() {
             <Route path='/channels/@me' element={
                 <RequireAuth>
                     <HomePage />
+                </RequireAuth>
+            } />
+            <Route path='/servers/:serverId/stats' element={
+                <RequireAuth>
+                    <ServerStats />
                 </RequireAuth>
             } />
             <Route path='/servers/:serverId/*' element={

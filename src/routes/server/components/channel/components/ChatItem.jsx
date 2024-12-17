@@ -11,9 +11,9 @@ const ChatItem = ({ message, userId, setDeletingMessage }) => {
 
     const isUpdated = message.updatedAt && message.updatedAt !== message.createdAt
     const fileType = message.fileUrl?.split(".").pop()
-    const isAdmin = message.member.role === "ADMIN"
-    const isModerator = message.member.role === "MODERATOR"
-    const isOwner = message.member.profile.id === userId
+    const isAdmin = message.member?.role === "ADMIN"
+    const isModerator = message.member?.role === "MODERATOR"
+    const isOwner = message.member?.profile.id === userId
     const canDeleteMessage = !message.deleted && (isAdmin || isModerator || isOwner)
     const canEditMessage = !message.deleted && isOwner && !message.fileUrl
     const isPDF = fileType === "pdf" && message.fileUrl
@@ -70,6 +70,10 @@ const ChatItem = ({ message, userId, setDeletingMessage }) => {
 
         return () => window.removeEventListener('keydown', handleKeyDown)
     }, [])
+
+    if(!message || !message.member ||!message.member.profile || !message.member.role) {
+        return <></>
+    }
 
     return (
         <div className="relative group flex items-center p-4 transition w-full hover:bg-bg2">

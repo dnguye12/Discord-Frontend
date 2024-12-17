@@ -14,6 +14,18 @@ export const getServerById = async (id) => {
     }
 }
 
+export const getServerByIdForStat = async (id) => {
+    let query = baseUrl + `/server/server-stat?id=${id}`
+
+    try {
+        const request = await axios.get(query)
+        return request.data
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
+
 export const getOneServerByProfile = async (id) => {
     let query = baseUrl + `/server/one-by-profile?id=${id}`
 

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ServerMemberStatus from "./ServerMemberStatus";
 import { getMember } from "../../../services/member";
 import { setProfileStatus } from "../../../services/profile";
+import { createConversation, findConversationWithMembers } from "../../../services/conversation";
 
 const ServerMember = ({ member, userId }) => {
     const [helperMember, setHelperMember] = useState(member)
@@ -53,11 +54,17 @@ const ServerMember = ({ member, userId }) => {
 
     const navigate = useNavigate()
 
-    const onMemberClick = () => {
+    const onMemberClick = async () => {
         if (userId === member.profile.id) {
             return;
         }
-        navigate(`/conversations/${member.profile.id}`)
+        const request = await findConversationWithMembers(member.profile.id)
+        if (request?.length > 0) {
+            navigate(`/conversations/${request[0].id}`)
+        } else {
+            const newConvo = await createConversation(userId, member.profile.id)
+            navigate(`/conversations/${newConvo.id}`)
+        }
     }
 
     return (

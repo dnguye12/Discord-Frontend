@@ -43,7 +43,6 @@ const ConversationMember = ({ c, helper, currentConversation, setCurrentConversa
         setCurrentConversation(c)
         navigate(`/conversations/${c.id}`)
     }
-    console.log(helperMember)
     return (
         <button onClick={() => handleClick(c)} key={c.id} className={`group px-2 py-2 rounded-md flex items-center gap-x-2 w-full transition mb-1 hover:bg-bg0 ${currentConversation?.id === c.id && "bg-bg0"}`}>
             <div className="relative">

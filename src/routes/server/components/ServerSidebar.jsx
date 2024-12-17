@@ -7,7 +7,6 @@ import ServerChannel from "./ServerChannel"
 import ServerMember from "./ServerMember"
 
 const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, setViewingChannel, userId, server, setType }) => {
-
     const iconMap = {
         "TEXT": "HashtagIcon",
         "AUDIO": "MicrophoneIcon",
@@ -95,6 +94,7 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, s
                     }
                 </div>
                 <div className="divider my-0"></div>
+                <div className=" overflow-x-hidden">
                 {
                     !!textChannels?.length && (
                         <div className="mb-2">
@@ -194,6 +194,7 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, s
                         </div>
                     )
                 }
+                </div>
             </div>
         </div>
     )

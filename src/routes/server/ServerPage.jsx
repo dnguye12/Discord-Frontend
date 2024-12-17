@@ -127,21 +127,26 @@ const ServerPage = () => {
     }, [server, userId, alreadyFetchMembers])
 
     useEffect(() => {
-        if(urlParts?.length === 2 && urlParts[1] === 'servers') {
-            navigate('/conversations')
-        }
-        else if (urlParts?.length === 3 && urlParts[2] !== "@me" && channels) {
+        if (urlParts?.length === 2 && urlParts[1] === 'servers') {
+            if(servers?.length > 0) {
+                setViewingChannel(servers[0])
+                navigate(`/servers/${servers[0].id}`)
+            }
+        } else if (urlParts?.length === 3 && urlParts[2] !== "@me" && channels) {
             const helper = channels.find((c) => c.name === "general")
             setViewingChannel(helper)
             if (helper) {
                 navigate(`/servers/${serverId}/channels/${helper.id}`)
             }
         } else if (urlParts?.length === 5 && urlParts[3] === "channels") {
+            if(!urlParts[2] || urlParts[2] === 'undefined') {
+                navigate(`/servers`)
+            }
             const helper = channels.find((c) => c.id === urlParts[4])
             setViewingChannel(helper)
             if (helper) {
                 setViewingChannel(helper)
-            }else {
+            } else {
                 const helper2 = channels.find((c) => c.name === "general")
                 if (helper2) {
                     navigate(`/servers/${serverId}/channels/${helper2.id}`)
@@ -203,7 +208,7 @@ const ServerPage = () => {
                         <ModalInvite server={server} userId={userId} />
                         <ModalEditServer server={server} setServer={setServer} userId={userId} />
                         <ModalMembers server={server} />
-                        <ModalCreateChannel server={server} setServer={setServer} type={type} setType={setType} userId={userId} />
+                        <ModalCreateChannel server={server} setChannels={setChannels} setServer={setServer} type={type} setType={setType} userId={userId} />
                         <ModalLeaveServer removeServer={removeServer} server={server} setServer={setServer} userId={userId} />
                         <ModalDeleteServer removeServer={removeServer} server={server} setServer={setServer} userId={userId} />
                         <ModalDeleteChannel currentChannel={currentChannel} setCurrentChannel={setCurrentChannel} setChannels={setChannels} server={server} setServer={setServer} userId={userId} />

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { addChannel } from "../../../services/server";
 
-const ModalCreateChannel = ({server, setServer, type, setType, userId }) => {
+const ModalCreateChannel = ({server, setServer, setChannels, type, setType, userId }) => {
     const [name, setName] = useState('')
 
     const handleNameChange = (e) => {
@@ -36,6 +36,7 @@ const ModalCreateChannel = ({server, setServer, type, setType, userId }) => {
                 ...prev,
                 channels: [...(prev.channels ||[]), newChannel]
             }))
+            setChannels(prev => [...prev, newChannel])
             document.getElementById('create_channel_modal').close()
         }catch(error) {
             console.log(error)
