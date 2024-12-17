@@ -50,7 +50,8 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, s
                                         id: channel.name,
                                         type: "channel",
                                         children: channel.name,
-                                        icon: iconMap[channel.type]
+                                        icon: iconMap[channel.type],
+                                        helper: channel.id
                                     }))
                                     : []
                             },
@@ -62,7 +63,8 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, s
                                         id: channel.name,
                                         type: "channel",
                                         children: channel.name,
-                                        icon: iconMap[channel.type]
+                                        icon: iconMap[channel.type],
+                                        helper: channel.id
                                     }))
                                     : []
                             },
@@ -74,21 +76,22 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, s
                                         id: channel.name,
                                         type: "channel",
                                         children: channel.name,
-                                        icon: iconMap[channel.type]
+                                        icon: iconMap[channel.type],
+                                        helper: channel.id
                                     }))
                                     : []
                             }, {
                                 heading: "Members",
                                 id: "Members",
                                 items: members?.map((member) => ({
-                                    id: member.id,
+                                    id: member.profile.id,
                                     type: "member",
-                                    children: member.profile.name,
+                                    children: member.profile.name ||member.profile.email,
                                     icon: roleIconMap[member.role]
                                 }))
 
                             }
-                        ]} />
+                        ]} server={server} userId={userId}/>
                     }
                 </div>
                 <div className="divider my-0"></div>
@@ -184,7 +187,7 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, s
                                     <ServerMember
                                         key={member.id}
                                         member={member}
-                                        server={server}
+                                        userId={userId}
                                     />
                                 ))}
                             </div>

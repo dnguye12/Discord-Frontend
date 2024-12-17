@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { updateContent } from '../../../../../services/message';
+import { createConversation, findConversationWithMembers } from '../../../../../services/conversation';
 
 const ChatItem = ({ message, userId, setDeletingMessage }) => {
     const navigate = useNavigate()
@@ -44,11 +45,17 @@ const ChatItem = ({ message, userId, setDeletingMessage }) => {
         setEditContent(e.target.value)
     }
 
-    const onMemberClick = () => {
+    const onMemberClick = async () => {
         if (userId === message.member.profile.id) {
             return;
         }
-        navigate(`/conversations/${message.member.profile.id}`)
+        const request = await findConversationWithMembers(message.member.profile.id)
+        if (request?.length > 0) {
+            navigate(`/conversations/${request[0].id}`)
+        } else {
+            const newConvo = await createConversation(userId, message.member.profile.id)
+            navigate(`/conversations/${newConvo.id}`)
+        }
     }
 
     useEffect(() => {
@@ -68,12 +75,19 @@ const ChatItem = ({ message, userId, setDeletingMessage }) => {
         <div className="relative group flex items-center p-4 transition w-full hover:bg-bg2">
             <div className="group flex gap-x-2 items-start w-full">
                 <div onClick={onMemberClick} className="cursor-pointer hover:drop-shadow-sm transition">
-                    <img src={message.member.profile.imageUrl} className="w-10 h-10 rounded-full shadow border border-bg0" />
+
+                    {
+                        message.member.profile.imageUrl ?
+                            <img src={message.member.profile.imageUrl} className="w-10 h-10 rounded-full shadow border border-bg0" />
+                            :
+                            <div className="w-10 h-10 rounded-full shadow border border-bg0"></div>
+                    }
                 </div>
                 <div className="flex flex-col w-full">
                     <div className="flex items-center gap-x-2">
                         <div className="flex items-center">
-                            <p onClick={onMemberClick} className={`font-semibold text-sm hover:underline cursor-pointer ${isAdmin && "text-red"} ${isModerator && "text-primary"}`}>{message.member.profile.name}</p>
+                            <p onClick={onMemberClick} className={`font-semibold text-sm hover:underline cursor-pointer ${isAdmin && "text-red"} ${isModerator && "text-primary"}`}>{
+                                message.member.profile.name || message.member.profile.email}</p>
                             <div className="tooltip" data-tip={message.member.role}>
                                 {roleIconMap[message.member.role]}
                             </div>

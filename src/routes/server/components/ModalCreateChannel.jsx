@@ -16,7 +16,7 @@ const ModalCreateChannel = ({server, setServer, type, setType, userId }) => {
             return false
         }
         if (server.channels?.length > 0) {
-            for (const channel in server?.channels) {
+            for (const channel of server?.channels || []) {
                 if (channel.name === name) {
                     return false
                 }

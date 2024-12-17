@@ -17,7 +17,7 @@ import ServerPage from "./routes/server/ServerPage";
 import InviteCodePage from "./routes/invite/InviteCodePage";
 import ConversationPage from "./routes/conversation/ConversationPage";
 
-import { getProfile, postProfile } from "./services/profile";
+import { getProfile, postProfile, setProfileStatus } from "./services/profile";
 
 
 const RequireAuth = ({ children }) => {
@@ -40,6 +40,7 @@ const RequireAuth = ({ children }) => {
                         const helperEmail = user.emailAddresses.length > 0 ? user.emailAddresses[0].emailAddress : ""
                         await postProfile(user.id, user.fullName, helperImage, helperEmail)
                     }
+                    await setProfileStatus(user.id, 'ONL', Date.now())
                 } catch (error) {
                     console.log(error)
                 }

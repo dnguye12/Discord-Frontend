@@ -56,7 +56,7 @@ export const useConversationQuery = ({ queryKey, conversationId }) => {
         getNextPageParam: (lastPage) => {
             return lastPage?.nextCursor ?? undefined;
         },
-        refetchInterval: 1000,
+        refetchInterval: 2000,
     })
 
     return {

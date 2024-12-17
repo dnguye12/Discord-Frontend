@@ -23,23 +23,20 @@ const ConversationPage = () => {
     const [alreadyFetchConversations, setAlreadyFetchConversations] = useState(false)
 
     const [currentConversation, setCurrentConversation] = useState(null)
-    const [alreadyFetchCurrentConversation, setAlreadyFetchCurrentConversation] = useState(false)
 
     useEffect(() => {
-        if (!alreadyFetchCurrentConversation && urlParts?.length >= 3 && urlParts[1] === "conversations") {
+        if (urlParts?.length >= 3 && urlParts[1] === "conversations") {
             const fetchCurrentConversation = async () => {
                 try {
                     const request = await getConversation(urlParts[2])
                     setCurrentConversation(request)
-                    setAlreadyFetchCurrentConversation(true)
                 } catch (error) {
                     console.log(error)
-                    setAlreadyFetchCurrentConversation(true)
                 }
             }
             fetchCurrentConversation()
         }
-    }, [alreadyFetchCurrentConversation, urlParts, userId])
+    }, [urlParts, userId])
 
     useEffect(() => {
         if (userId && !alreadyFetchConversations) {

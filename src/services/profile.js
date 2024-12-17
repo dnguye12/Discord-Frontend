@@ -29,3 +29,17 @@ export const postProfile = async (id, name, imageUrl, email) => {
         return null
     }
 }
+
+export const setProfileStatus = async(id, status, lastActive) => {
+    let query = baseUrl + `/profile/status?id=${id}`
+    try {
+        const request = await axios.patch(query, {
+            status,
+            lastActive
+        })
+
+        return request.data
+    }catch(error) {
+        console.log(error)
+    }
+}

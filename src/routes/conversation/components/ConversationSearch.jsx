@@ -5,9 +5,9 @@ import CommandPalette, { filterItems, useHandleOpenCommandPalette } from "react-
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { createConversation, findConversationWithMembers } from "../../../services/conversation";
+import { createConversation,findConversationWithMembers } from "../../../services/conversation";
 
-const ServerSearch = ({ data, server, userId }) => {
+const ConversationSearch = ({ data, userId }) => {
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
     const [search, setSearch] = useState('')
@@ -15,20 +15,16 @@ const ServerSearch = ({ data, server, userId }) => {
 
     const filteredItems = filterItems(data, search)
 
-    const onClick = async (channel) => {
+    const onClick = async (conversation) => {
         setOpen(false)
-        if (channel.type === "channel") {
-            navigate(`/servers/${server.id}/channels/${channel.helper}`)
+
+        const request = await findConversationWithMembers(conversation.id)
+
+        if (request?.length > 0) {
+            navigate(`/conversations/${request[0].id}`)
         } else {
-            if (channel.id != userId) {
-                const request = await findConversationWithMembers(channel.id)
-                if (request?.length > 0) {
-                    navigate(`/conversations/${request[0].id}`)
-                } else {
-                    const newConvo = await createConversation(userId, channel.id)
-                    navigate(`/conversations/${newConvo.id}`)
-                }
-            }
+            const newConvo = await createConversation(userId, conversation.id)
+            navigate(`/conversations/${newConvo.id}`)
         }
     }
 
@@ -39,7 +35,6 @@ const ServerSearch = ({ data, server, userId }) => {
                 <p className="font-semibold text-sm">Search</p>
                 <kbd className="bg-bg3 pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border px-1.5 font-mono text-xs font-medium ml-auto"><span className="text-xs">CTRL</span>K</kbd>
             </button>
-
             <CommandPalette
                 onChangeSearch={setSearch}
                 onChangeOpen={setOpen}
@@ -54,25 +49,23 @@ const ServerSearch = ({ data, server, userId }) => {
                                 key={d.id}
                             >
                                 {
-                                    d.items.map((channel) => (
+                                    d.items.map((conversation) => (
                                         <CommandPalette.ListItem
-                                            key={channel.id}
-                                            children={channel.children}
-                                            icon={channel.icon}
-                                            onClick={() => { onClick(channel) }}
+                                            key={conversation.id}
+                                            children={conversation.children}
+                                            icon={conversation.icon}
+                                            onClick={() => { onClick(conversation) }}
                                         >
 
                                         </CommandPalette.ListItem>
                                     ))
                                 }
                             </CommandPalette.List>
-                        )
-
-                    )
+                        ))
                 }
             </CommandPalette>
         </>
-    )
+    );
 }
 
-export default ServerSearch
+export default ConversationSearch;

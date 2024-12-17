@@ -17,14 +17,14 @@ export const MediaRoom = ({ chatId, video, audio, handleLeave }) => {
         }
         (async () => {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/livekit?room=${chatId}&username=${user?.fullName}`)
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/livekit?room=${chatId}&username=${user?.fullName || user?.emailAddresses[0].emailAddress}`)
                 const data = await res.json()
                 setToken(data.token)
             } catch (error) {
                 console.log(error)
             }
         })()
-    }, [user?.fullName, chatId])
+    }, [user?.fullName, user?.emailAddresses, chatId])
 
     if (token === "") {
         return (<div className="flex flex-col flex-1 justify-center items-center">
@@ -32,8 +32,6 @@ export const MediaRoom = ({ chatId, video, audio, handleLeave }) => {
             <p className="text-xs ">Loading...</p>
         </div>)
     }
-
-    console.log(token)
 
     return (
         <LiveKitRoom

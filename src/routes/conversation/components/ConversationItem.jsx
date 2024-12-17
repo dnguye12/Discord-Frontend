@@ -51,12 +51,17 @@ const ConversationItem = ({ dm, userId, setDeletingMessage }) => {
         <div className="relative group flex items-center p-4 transition w-full hover:bg-bg2">
             <div className="group flex gap-x-2 items-start w-full">
                 <div className="cursor-pointer hover:drop-shadow-sm transition">
-                    <img src={dm.profile.imageUrl} className="w-10 h-10 rounded-full shadow border border-bg0" />
+                    {
+                        dm.profile.imageUrl ?
+                            <img src={dm.profile.imageUrl} className="w-10 h-10 rounded-full shadow border border-bg0" />
+                            :
+                            <div className='w-10 h-10 rounded-full shadow border border-bg0'></div>
+                    }
                 </div>
                 <div className="flex flex-col w-full">
                     <div className="flex items-center gap-x-2">
                         <div className="flex items-center">
-                            <p className={`font-semibold text-sm hover:underline cursor-pointer`}>{dm.profile.name}</p>
+                            <p className={`font-semibold text-sm hover:underline cursor-pointer`}>{dm.profile.name || dm.profile.email}</p>
                         </div>
                         <span className='text-xs'>{moment(dm.createdAt).format('hh:mm, D MMM YYYY')}</span>
                     </div>

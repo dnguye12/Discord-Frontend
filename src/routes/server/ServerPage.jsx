@@ -57,17 +57,22 @@ const ServerPage = () => {
 
     useEffect(() => {
         if (serverId) {
+
+
             const fetchServer = async () => {
                 try {
                     const response = await getServerById(serverId)
 
                     if (response) {
                         setServer(response)
+                        setAlreadyFetchMembers(false);
+                        setAlreadyFetchChannels(false);
                     }
                 } catch (error) {
                     console.log(error)
                 }
             }
+
             fetchServer()
         }
     }, [serverId])
@@ -128,9 +133,17 @@ const ServerPage = () => {
             if (helper) {
                 navigate(`/servers/${serverId}/channels/${helper.id}`)
             }
-        }else if(urlParts?.length === 5 && urlParts[3] === "channels" ) {
+        } else if (urlParts?.length === 5 && urlParts[3] === "channels") {
             const helper = channels.find((c) => c.id === urlParts[4])
             setViewingChannel(helper)
+            if (helper) {
+                setViewingChannel(helper)
+            }else {
+                const helper2 = channels.find((c) => c.name === "general")
+                if (helper2) {
+                    navigate(`/servers/${serverId}/channels/${helper2.id}`)
+                }
+            }
         }
     }, [channels, urlParts, serverId, navigate])
 

@@ -30,3 +30,17 @@ export const findConversationWithMembers = async (profile) => {
         return null
     }
 }
+
+export const createConversation = async(profileOne, profileTwo) => {
+    let query = baseUrl + `/conversation`
+
+    try {
+        const request = await axios.post(query, {
+            profileOne,
+            profileTwo
+        })
+        return request.data
+    }catch(error) {
+        console.log(error)
+    }
+}
