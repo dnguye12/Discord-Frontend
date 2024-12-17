@@ -28,8 +28,8 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, s
 
     if (!server) {
         return (
-            <div className="flex flex-col h-full w-full bg-bg2">
-                <p>No servers to display</p>
+            <div className="flex flex-col h-full w-full bg-bg2 p-3">
+                <p>Select a server.</p>
             </div>
         )
     }

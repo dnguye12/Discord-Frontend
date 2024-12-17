@@ -127,7 +127,10 @@ const ServerPage = () => {
     }, [server, userId, alreadyFetchMembers])
 
     useEffect(() => {
-        if (urlParts?.length === 3 && urlParts[2] !== "@me" && channels) {
+        if(urlParts?.length === 2 && urlParts[1] === 'servers') {
+            navigate('/conversations')
+        }
+        else if (urlParts?.length === 3 && urlParts[2] !== "@me" && channels) {
             const helper = channels.find((c) => c.name === "general")
             setViewingChannel(helper)
             if (helper) {
@@ -188,7 +191,7 @@ const ServerPage = () => {
                             />
                         )
                         : (
-                            <div>Server ID Page</div>
+                            <div></div>
                         )
                 }
 

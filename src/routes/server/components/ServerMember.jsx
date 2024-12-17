@@ -24,7 +24,7 @@ const ServerMember = ({ member, userId }) => {
                         helper = await setProfileStatus(helper.profile.id, 'OFF', Date.now())
                     } else {
                         const lastActive = new Date(helper.profile.lastActive);
-                        const fiveMinutesAgo = Date.now() - 300000;
+                        const fiveMinutesAgo = Date.now() - 60000;
                         if (lastActive.getTime() < fiveMinutesAgo) {
                             helper = await setProfileStatus(helper.profile.id, 'OFF', helper.profile.lastActive)
                         }
@@ -38,7 +38,7 @@ const ServerMember = ({ member, userId }) => {
 
         fetchMember()
 
-        const interval = setInterval(fetchMember, 300000)
+        const interval = setInterval(fetchMember, 60000)
 
         return () => clearInterval(interval)
     }, [member, userId])
