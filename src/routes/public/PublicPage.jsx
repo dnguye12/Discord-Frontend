@@ -4,6 +4,7 @@ import PublicHero from "./components/PublicHero"
 
 import PublicFooter from "./components/PublicFooter"
 
+//The page before all the login/signup
 const PublicPage = () => {
     const { isSignedIn, user, isLoaded } = useUser()
 

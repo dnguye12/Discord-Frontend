@@ -80,7 +80,7 @@ const ModalMembers = ({ server }) => {
                     </div>
                 </div>
 
-                <div className="mt-8 px-6 relative">
+                <div className="mt-8 px-6 relative overflow-y-auto" style={{ maxHeight: '400px', overflowY: 'auto' }}>
                     {
                         profiles && profiles.map((profile) => {
                             return (

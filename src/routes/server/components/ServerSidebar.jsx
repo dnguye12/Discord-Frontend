@@ -182,7 +182,7 @@ const ServerSidebar = ({ channels, members, setCurrentChannel, viewingChannel, s
                                 label="Members"
                                 server={server}
                             />
-                            <div className="space-y-0.5">
+                            <div className="space-y-0.5 overflow-y-hidden" style={{overflowY: "auto", maxHeight: "450px"}}>
                                 {members.map((member) => (
                                     <ServerMember
                                         key={member.id}

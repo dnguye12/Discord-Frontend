@@ -2,6 +2,12 @@ import axios from "axios";
 
 const baseUrl = import.meta.env.VITE_API_URL
 
+/*
+  Connection with backend
+  Use services for easier editing
+*/
+
+
 export const getDirectMessages = async (userId, conversationId, cursor) => {
     let query = baseUrl + `/direct-message?userId=${userId}&conversationId=${conversationId}&cursor=${cursor}`
 

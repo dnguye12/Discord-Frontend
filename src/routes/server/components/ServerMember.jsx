@@ -15,11 +15,7 @@ const ServerMember = ({ member, userId }) => {
             try {
                 let helper = await getMember(member.id)
                 if (helper.profile.id === userId) {
-                    if (helper.profile.online === 'OFF') {
-                        helper = await setProfileStatus(userId, 'ONL', Date.now())
-                    } else {
-                        helper = await setProfileStatus(userId, helper.profile.online, Date.now())
-                    }
+                    helper = await setProfileStatus(userId, 'ONL', Date.now())
                 } else {
                     if (!helper.profile.lastActive) {
                         helper = await setProfileStatus(helper.profile.id, 'OFF', Date.now())
@@ -70,7 +66,7 @@ const ServerMember = ({ member, userId }) => {
     return (
         <button onClick={onMemberClick} className={`group px-2 py-2 rounded-md flex items-center gap-x-2 w-full transition mb-1 hover:bg-bg0 ${memberId === member.id && "bg-bg0"}`}>
             <div className="relative">
-                {member.profile.imageUrl ?
+                {member.profile?.imageUrl ?
                     <img src={member.profile.imageUrl} className="w-8 h-8 rounded-full shadow-lg border border-bg0" />
                     :
                     <div className="w-8 h-8 rounded-full shadow-lg border border-bg0"></div>

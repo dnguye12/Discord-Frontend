@@ -2,6 +2,12 @@ import axios from "axios";
 
 const baseUrl = import.meta.env.VITE_API_URL
 
+/*
+  Connection with backend
+  Use services for easier editing
+*/
+
+
 export const getMessages = async (userId, channelId, cursor) => {
     let query = baseUrl + `/message?userId=${userId}&channelId=${channelId}&cursor=${cursor}`
 

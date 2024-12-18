@@ -81,7 +81,7 @@ const ChatItem = ({ message, userId, setDeletingMessage }) => {
                 <div onClick={onMemberClick} className="cursor-pointer hover:drop-shadow-sm transition">
 
                     {
-                        message.member.profile.imageUrl ?
+                        message.member.profile?.imageUrl ?
                             <img src={message.member.profile.imageUrl} className="w-10 h-10 rounded-full shadow border border-bg0" />
                             :
                             <div className="w-10 h-10 rounded-full shadow border border-bg0"></div>

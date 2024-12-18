@@ -28,19 +28,24 @@ const ServerStats = () => {
         fetchServer()
     }, [serverId])
 
-    console.log(server)
-
     if (!server) { return <p>Loading chart...</p>; }
 
+    /*
+    Display the server statistic if you are an admin
+
+    With charts and texts
+    */
     return (
         <div className="h-full bg-bg1">
             <main className=" flex flex-col max-w-6xl mx-auto h-full min-h-screen">
                 <div className="w-full flex justify-end my-4">
+                    {/* Navigation back to server */}
                     <button className="bg-white px-4 py-2 flex justify-center items-center rounded-full text-black text-sm border-none transition font-semibold hover:scale-105 hover:bg-neutral-200" onClick={() => { navigate(`/servers/${serverId}`) }}>
                         Back to server <FontAwesomeIcon className="ms-1" icon="fa-solid fa-arrow-right-to-bracket" />
                     </button>
                 </div>
                 <div className="rounded-md shadow-md w-full border border-bg0 p-10 my-4 flex">
+                    {/* Server details */}
                     <div className="flex w-full justify-evenly">
                         <div>
                             {
@@ -50,6 +55,8 @@ const ServerStats = () => {
                                     <div className="relative group flex mx-3 h-24 w-24 rounded-full shadow group-hover:rounded-[16px] transition-all overflow-hidden"></div>
                             }
                         </div>
+
+                        {/*Server stats*/}
                         <div className="divider divider-horizontal"></div>
                         <div className="flex flex-col item justify-center">
                             <h1 className="font-bold text-3xl text-white mb-1">{server.name}</h1>

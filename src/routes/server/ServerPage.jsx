@@ -45,7 +45,7 @@ const ServerPage = () => {
     useEffect(() => {
         const fetchServers = async () => {
             try {
-                const request = await getAllServersByProfile(userId)
+                const request = await getAllServersByProfile(userId) //Get all the servers that the current user is in
                 setServers(request)
             } catch (error) {
                 console.log(error)
@@ -57,14 +57,12 @@ const ServerPage = () => {
 
     useEffect(() => {
         if (serverId) {
-
-
             const fetchServer = async () => {
                 try {
-                    const response = await getServerById(serverId)
+                    const response = await getServerById(serverId) //If the user is viewing a server, load it
 
                     if (response) {
-                        setServer(response)
+                        setServer(response) 
                         setAlreadyFetchMembers(false);
                         setAlreadyFetchChannels(false);
                     }
@@ -84,7 +82,7 @@ const ServerPage = () => {
 
                 if (!helper) {
                     setServer(null)
-                    navigate('/servers')
+                    navigate('/servers') //If user try to join a server they are not a part of, click them
                 } else {
                     setCheckedUser(true)
                 }
@@ -98,7 +96,7 @@ const ServerPage = () => {
         if (server && !alreadyFetchChannels) {
             const fetchChannels = async () => {
                 try {
-                    const response = await getChannelsByServerId(server.id)
+                    const response = await getChannelsByServerId(server.id) //If a server is loaded, load its channels
                     setChannels(response)
                     setAlreadyFetchChannels(true)
                 } catch (error) {
@@ -126,6 +124,7 @@ const ServerPage = () => {
         }
     }, [server, userId, alreadyFetchMembers])
 
+    //Edge cases checking
     useEffect(() => {
         if (urlParts?.length === 2 && urlParts[1] === 'servers') {
             if(servers?.length > 0) {
@@ -205,6 +204,7 @@ const ServerPage = () => {
             {
                 server && (
                     <>
+                    {/*Loading modals*/}
                         <ModalInvite server={server} userId={userId} />
                         <ModalEditServer server={server} setServer={setServer} userId={userId} />
                         <ModalMembers server={server} />
